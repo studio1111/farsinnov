@@ -8,6 +8,7 @@ import { Pricing } from "@/components/site/pricing";
 import { Process } from "@/components/site/process";
 import { Services } from "@/components/site/services";
 import { Works } from "@/components/site/works";
+import { ScrollVideoBg } from "@/components/site/scroll-video-bg";
 
 const title = "نئوبیلد | طراحی سایت و اپلیکیشن برای فروش بیشتر";
 const description =
@@ -29,7 +30,8 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative isolate min-h-screen">
+      <ScrollVideoBg />
       <Navbar />
       <main>
         <Hero3D />
