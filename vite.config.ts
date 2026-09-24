@@ -6,10 +6,20 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+const isGitHubPages = Boolean(process.env.GITHUB_ACTIONS);
+const base = isGitHubPages ? "/farsinnov/" : "/";
+
 export default defineConfig({
+  vite: {
+    base,
+  },
   tanstackStart: {
+    // GitHub Pages is a static host, so use TanStack Start's static SPA shell there.
+    // Lovable development/preview remains unchanged because this is enabled only by the CI env.
+    spa: {
+      enabled: isGitHubPages,
+    },
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
     server: { entry: "server" },
   },
 });
