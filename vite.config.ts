@@ -6,7 +6,7 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const isGitHubPages = Boolean(process.env.GITHUB_ACTIONS);
+const isGitHubPages = Boolean(process.env['GITHUB_ACTIONS']);
 const base = isGitHubPages ? "/farsinnov/" : "/";
 
 export default defineConfig({
