@@ -10,9 +10,9 @@ export function getHeroAssemblyProgress(progress) {
 export function getHeroCamera(progress) {
   const p = clamp01(progress);
   return {
-    x: -5 * p,
+    x: p === 0 ? 0 : -5 * p,
     y: 3 * p,
-    z: -10 * p,
+    z: p === 0 ? 0 : -10 * p,
   };
 }
 
