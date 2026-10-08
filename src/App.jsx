@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { getHeaderMode, getHeaderProgress } from "./headerBehavior.js";
 import { getHeroAssemblyProgress, getHeroCamera, getHeroInteractionStrength, getHeroPointer } from "./heroBehavior.js";
 import { getServiceDepth, getServiceStory } from "./serviceBehavior.js";
+import { getPortfolioProject, getPortfolioTransform } from "./portfolioBehavior.js";
 import {
   ArrowLeft, ArrowUpLeft, ArrowRight, Check, ChevronDown, Code2, Database,
   Layers3, Menu, Moon, MoveUpRight, Play, Rocket, Send, Smartphone, Sparkles,
@@ -18,9 +19,9 @@ const services = [
 ];
 
 const projects = [
-  { number:"01", title:"فروشگاه نسل جدید", tag:"E-commerce", text:"محصول را قبل از قیمت نشان می‌دهیم؛ تجربه خرید بخشی از خود محصول است." },
-  { number:"02", title:"پلتفرم خدمات دیجیتال", tag:"Web App", text:"ورود، داشبورد، درخواست خدمت و پیگیری، در یک جریان بدون اصطکاک." },
-  { number:"03", title:"برند سینمایی", tag:"Brand Site", text:"روایت تصویری برای برندهایی که نمی‌خواهند شبیه یک قالب آماده دیده شوند." }
+  { number:"01", title:"فروشگاه نسل جدید", tag:"E-commerce", text:"یک کانسپت فروشگاهی برای تجربه‌ای که محصول، داستان و خرید را در یک جریان واحد قرار می‌دهد.", services:["Strategy","UI/UX","Web"], tech:["React","Vite","Motion"], result:"تجربه خرید سریع و داستان‌محور" },
+  { number:"02", title:"پلتفرم خدمات دیجیتال", tag:"Web App", text:"یک کانسپت محصول برای ورود، داشبورد، درخواست خدمت و پیگیری، با تمرکز روی کمترین اصطکاک.", services:["Product","Web App","Data"], tech:["React","API","Supabase"], result:"یک مسیر یکپارچه از درخواست تا پیگیری" },
+  { number:"03", title:"برند سینمایی", tag:"Brand Site", text:"یک کانسپت برندینگ دیجیتال که روایت، تایپوگرافی، حرکت و تعامل را به یک صحنه زنده تبدیل می‌کند.", services:["Brand","3D","Creative Dev"], tech:["WebGL","React","Motion"], result:"هویت دیجیتال متمایز و تعاملی" }
 ];
 
 const steps = [
@@ -34,6 +35,7 @@ function App() {
   const [dark, setDark] = useState(true);
   const [menu, setMenu] = useState(false);
   const [activeService, setActiveService] = useState(0);
+  const [activePortfolio, setActivePortfolio] = useState(0);
   const [sent, setSent] = useState(false);
   const [headerMode, setHeaderMode] = useState("hero");
   const [headerProgress, setHeaderProgress] = useState(0);
@@ -174,16 +176,39 @@ function App() {
         </div>
       </section>
 
-      <section id="work" className="section work-section">
-        <div className="section-head"><div><div className="kicker">SELECTED WORK</div><h2>چیزهایی که<br/><span>می‌سازیم.</span></h2></div><a className="text-link" href="#contact">پروژه شما می‌تواند بعدی باشد <ArrowLeft size={15}/></a></div>
-        <div className="project-list">
-          {projects.map(project => <article className="project" key={project.number}>
-            <div className="project-visual"><span>{project.tag}</span><div className="visual-grid"/><div className="visual-orb"/></div>
-            <div className="project-copy"><div className="kicker">{project.number} / CASE STUDY</div><h3>{project.title}</h3><p>{project.text}</p><a href="#contact">مشاهده مسیر پروژه <ArrowLeft size={15}/></a></div>
-          </article>)}
+      <section id="work" className="section work-section portfolio-section">
+        <div className="section-head portfolio-head">
+          <div><div className="kicker">SELECTED WORK / 03 WORLDS</div><h2>ایده‌ها را<br/><span>به جهان تبدیل می‌کنیم.</span></h2></div>
+          <p>سه کانسپت نمونه برای نشان دادن زبان طراحی Farsinnov. در پروژه واقعی، هر جهان با محتوا، برند و داده‌های خود شما ساخته می‌شود.</p>
+        </div>
+        <div className="portfolio-stage">
+          <div className="portfolio-rail" aria-label="انتخاب پروژه">
+            {projects.map((project,index)=><button type="button" key={project.number} className={`portfolio-tab ${activePortfolio===index?"active":""}`} onClick={()=>setActivePortfolio(index)} onMouseEnter={()=>setActivePortfolio(index)} aria-pressed={activePortfolio===index}><span>{project.number}</span><b>{project.title}</b><small>{project.tag}</small></button>)}
+          </div>
+          <div className="portfolio-world">
+            {projects.map((project,index)=>{
+              const focused=activePortfolio===index;
+              const transform=getPortfolioTransform(focused?1:0);
+              return <article className={`portfolio-card ${focused?"is-focused":""}`} key={project.number}
+                style={{"--portfolio-scale":transform.scale,"--portfolio-y":`${transform.y}px`,"--portfolio-rotate":`${transform.rotate}deg`,"--portfolio-opacity":transform.opacity}}
+                onClick={()=>setActivePortfolio(index)} tabIndex={0}
+                onKeyDown={event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();setActivePortfolio(index)}}}>
+                <div className="portfolio-visual">
+                  <div className="portfolio-grid"/><div className="portfolio-halo"/>
+                  <div className="portfolio-device"><div className="device-top"><span/><span/><span/></div><div className="device-screen"><i>{project.number}</i><strong>{project.tag}</strong><span>FARSINNOV</span></div></div>
+                  <span className="portfolio-corner">{project.number} / WORLD</span>
+                </div>
+                <div className="portfolio-info">
+                  <div className="portfolio-meta"><span>{project.tag}</span><span>CASE STUDY CONCEPT</span></div>
+                  <h3>{project.title}</h3><p>{project.text}</p>
+                  <div className="portfolio-detail-grid"><div><small>مسیر</small><b>{project.services.join(" / ")}</b></div><div><small>فناوری</small><b>{project.tech.join(" / ")}</b></div><div><small>نتیجه</small><b>{project.result}</b></div></div>
+                  <a href="#contact" onClick={event=>event.stopPropagation()}>ساخت نسخه واقعی این جهان <ArrowLeft size={15}/></a>
+                </div>
+              </article>;
+            })}
+          </div>
         </div>
       </section>
-
       <section className="statement"><div className="kicker">NOT JUST A WEBSITE</div><h2>هر پیکسل باید<br/><span>دلیلی داشته باشد.</span></h2><p>ما ظاهر را از عملکرد جدا نمی‌کنیم. حرکت، محتوا، کد و داده باید در یک تجربه واحد کار کنند.</p></section>
 
       <section id="process" className="section">
