@@ -24,7 +24,7 @@ export function getHeroPointer(clientX, clientY, width, height) {
   const safeWidth = Math.max(Number(width) || 1, 1);
   const safeHeight = Math.max(Number(height) || 1, 1);
   return {
-    x: clamp01((clientX / safeWidth) * 2 - 1),
-    y: clamp01((clientY / safeHeight) * 2 - 1),
+    x: Math.min(Math.max((clientX / safeWidth) * 2 - 1, -1), 1),
+    y: Math.min(Math.max((clientY / safeHeight) * 2 - 1, -1), 1),
   };
 }
