@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { getHeaderMode, getHeaderProgress } from "./headerBehavior.js";
 import { getHeroAssemblyProgress, getHeroCamera, getHeroInteractionStrength, getHeroPointer } from "./heroBehavior.js";
 import { getServiceDepth, getServiceStory } from "./serviceBehavior.js";
-import { getPortfolioProject, getPortfolioTransform } from "./portfolioBehavior.js";
+import { getPortfolioTransform } from "./portfolioBehavior.js";
 import {
   ArrowLeft, ArrowUpLeft, ArrowRight, Check, ChevronDown, Code2, Database,
   Layers3, Menu, Moon, MoveUpRight, Play, Rocket, Send, Smartphone, Sparkles,
@@ -87,10 +87,11 @@ function App() {
   return (
     <main>
       <nav className={`nav nav-${headerMode}`} style={{"--header-progress":headerProgress}} aria-label="ناوبری اصلی">
-        <a className="brand" href="#top" aria-label="Farsinnov">
+        <a className="skip-link" href="#content">رفتن به محتوای اصلی</a>
+        <a className="brand" href="#hero" aria-label="Farsinnov">
           <span className="brand-mark"><Sparkles size={15}/></span><span>FARSINNOV</span><span className="brand-orbit"/>
         </a>
-        <div className={"nav-links " + (menu ? "open" : "")}>
+        <div id="mobile-navigation" className={"nav-links " + (menu ? "open" : "")}>
           <a href="#services" onClick={()=>setMenu(false)}>خدمات</a>
           <a href="#work" onClick={()=>setMenu(false)}>نمونه‌کار</a>
           <a href="#process" onClick={()=>setMenu(false)}>فرآیند</a>
@@ -99,7 +100,7 @@ function App() {
         <div className="nav-actions">
           <button className="icon-btn" onClick={()=>setDark(v=>!v)} aria-label="تغییر تم">{dark ? <Sun size={18}/> : <Moon size={18}/>}</button>
           <a className="nav-cta" href="#contact"><span>شروع پروژه</span><ArrowUpLeft size={16}/></a>
-          <button className="icon-btn mobile-only" onClick={()=>setMenu(v=>!v)} aria-label="منو">{menu ? <X size={19}/> : <Menu size={19}/>}</button>
+          <button className="icon-btn mobile-only" onClick={()=>setMenu(v=>!v)} aria-expanded={menu} aria-controls="mobile-navigation" aria-label="منو">{menu ? <X size={19}/> : <Menu size={19}/>}</button>
         </div>
       </nav>
 
