@@ -77,6 +77,10 @@ export function getFeaturedCampers(limit = 3) {
   return CAMPERS.slice(0, Math.max(0, limit));
 }
 
+export function getCamperById(id) {
+  return CAMPERS.find((camper) => camper.id === id);
+}
+
 export function validateBooking(form) {
   if (
     !form.name.trim() ||
