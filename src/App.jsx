@@ -112,7 +112,7 @@ function App() {
   };
 
   return (
-    <main>
+    <main id="top">
       <nav className={`nav nav-${headerMode}`} style={{"--header-progress":headerProgress}} aria-label="ناوبری اصلی">
         <a className="skip-link" href="#content">رفتن به محتوای اصلی</a>
         <a className="brand" href="#hero" aria-label="Farsinnov">
@@ -275,15 +275,17 @@ function App() {
 
       <section id="contact" className="contact reveal">
         <div className="contact-copy"><div className="kicker">START A PROJECT</div><h2>ایده‌ات را<br/><span>روشن کنیم.</span></h2><p>چند خط درباره پروژه بنویس. این فرم فعلاً برای ساخت تجربه اولیه است و در مرحله بعد به Backend متصل می‌شود.</p>{sent && <div className="form-success"><Check size={16}/> پیام شما برای نسخه نمایشی ثبت شد.</div>}</div>
-        <form className="contact-form" onSubmit={submit}>
-          <label>نام<input required name="name" placeholder="نام شما"/></label>
-          <label>ایمیل<input required type="email" name="email" placeholder="you@example.com"/></label>
-          <label>نوع پروژه<select name="type" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>وب‌سایت</option><option>وب‌اپلیکیشن</option><option>اپلیکیشن موبایل</option><option>فروشگاه</option><option>محصول اختصاصی</option></select>{formErrors.type && <small id="type-error" className="field-error">{formErrors.type}</small>}</label>
-          <label>بودجه تقریبی<select name="budget" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>نیاز به مشاوره</option><option>پروژه کوچک</option><option>پروژه متوسط</option><option>پروژه بزرگ</option></select>{formErrors.budget && <small id="budget-error" className="field-error">{formErrors.budget}</small>}</label>
-          <label>درباره پروژه<textarea required name="message" rows="6" placeholder="چه چیزی می‌خواهید بسازیم؟"/></label>
+        <form className="contact-form" onSubmit={submit} noValidate>
+          <label>نام<input required name="name" aria-invalid={Boolean(formErrors.name)} aria-describedby={formErrors.name ? "name-error" : undefined} placeholder="نام شما"/>{formErrors.name && <small id="name-error" className="field-error">{formErrors.name}</small>}</label>
+          <label>ایمیل<input required type="email" name="email" aria-invalid={Boolean(formErrors.email)} aria-describedby={formErrors.email ? "email-error" : undefined} placeholder="you@example.com"/>{formErrors.email && <small id="email-error" className="field-error">{formErrors.email}</small>}</label>
+          <label>نوع پروژه<select name="type" aria-invalid={Boolean(formErrors.type)} aria-describedby={formErrors.type ? "type-error" : undefined} defaultValue=""><option value="" disabled>انتخاب کنید</option><option>وب‌سایت</option><option>وب‌اپلیکیشن</option><option>اپلیکیشن موبایل</option><option>فروشگاه</option><option>محصول اختصاصی</option></select>{formErrors.type && <small id="type-error" className="field-error">{formErrors.type}</small>}</label>
+          <label>بودجه تقریبی<select name="budget" aria-invalid={Boolean(formErrors.budget)} aria-describedby={formErrors.budget ? "budget-error" : undefined} defaultValue=""><option value="" disabled>انتخاب کنید</option><option>نیاز به مشاوره</option><option>پروژه کوچک</option><option>پروژه متوسط</option><option>پروژه بزرگ</option></select>{formErrors.budget && <small id="budget-error" className="field-error">{formErrors.budget}</small>}</label>
+          <label>درباره پروژه<textarea required name="message" aria-invalid={Boolean(formErrors.message)} aria-describedby={formErrors.message ? "message-error" : undefined} rows="6" placeholder="چه چیزی می‌خواهید بسازیم؟"/>{formErrors.message && <small id="message-error" className="field-error">{formErrors.message}</small>}</label>
           <button className="submit" type="submit">ارسال درخواست <Send size={16}/></button>
         </form>
       </section>
+
+      </div>
 
       <footer><span>© {year} Farsinnov</span><span>طراحی و توسعه محصولات دیجیتال</span><a href="#top">بازگشت به بالا ↑</a></footer>
     </main>
