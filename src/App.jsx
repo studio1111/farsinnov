@@ -3,6 +3,7 @@ import { getHeaderMode, getHeaderProgress } from "./headerBehavior.js";
 import { getHeroAssemblyProgress, getHeroCamera, getHeroInteractionStrength, getHeroPointer } from "./heroBehavior.js";
 import { getServiceDepth, getServiceStory } from "./serviceBehavior.js";
 import { getPortfolioTransform } from "./portfolioBehavior.js";
+import { getRevealThreshold, validateProjectForm } from "./siteBehavior.js";
 import {
   ArrowLeft, ArrowUpLeft, ArrowRight, Check, ChevronDown, Code2, Database,
   Layers3, Menu, Moon, MoveUpRight, Play, Rocket, Send, Smartphone, Sparkles,
@@ -37,6 +38,8 @@ function App() {
   const [activeService, setActiveService] = useState(0);
   const [activePortfolio, setActivePortfolio] = useState(0);
   const [sent, setSent] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+  const [openFaq, setOpenFaq] = useState(0);
   const [headerMode, setHeaderMode] = useState("hero");
   const [headerProgress, setHeaderProgress] = useState(0);
   const [heroProgress, setHeroProgress] = useState(0);
@@ -78,10 +81,34 @@ function App() {
   const heroInteraction = getHeroInteractionStrength(heroProgress, heroInteracting);
   const story = getServiceStory(activeService);
 
+  useEffect(() => {
+    const targets = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((element) => element.classList.add('is-visible'));
+      return undefined;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: getRevealThreshold(0.14), rootMargin: '0px 0px -6% 0px' });
+    targets.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
+
   const submit = (event) => {
     event.preventDefault();
+    const form = event.currentTarget;
+    const values = Object.fromEntries(new FormData(form).entries());
+    const errors = validateProjectForm(values);
+    setFormErrors(errors);
+    setSent(false);
+    if (Object.keys(errors).length > 0) return;
     setSent(true);
-    event.currentTarget.reset();
+    form.reset();
   };
 
   return (
