@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { getHeaderMode, getHeaderProgress } from "./headerBehavior.js";
 import {
   ArrowLeft, ArrowUpLeft, Check, ChevronDown, Code2, Layers3, Menu,
   Moon, MoveUpRight, Play, Rocket, Send, Smartphone, Sparkles, Sun,
@@ -30,6 +31,8 @@ function App() {
   const [menu, setMenu] = useState(false);
   const [active, setActive] = useState(null);
   const [sent, setSent] = useState(false);
+  const [headerMode, setHeaderMode] = useState("hero");
+  const [headerProgress, setHeaderProgress] = useState(0);
 
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
@@ -45,7 +48,7 @@ function App() {
 
   return (
     <main>
-      <nav className="nav">
+      <nav className={`nav nav-${headerMode}`} style={{ "--header-progress": headerProgress }} aria-label="ناوبری اصلی">
         <a className="brand" href="#top" aria-label="Farsinnov">
           <span className="brand-mark"><Sparkles size={15}/></span>
           <span>FARSINNOV</span>
@@ -60,14 +63,14 @@ function App() {
           <button className="icon-btn" onClick={() => setDark(v => !v)} aria-label="تغییر تم">
             {dark ? <Sun size={18}/> : <Moon size={18}/>}
           </button>
-          <a className="nav-cta" href="#contact">شروع پروژه <ArrowUpLeft size={16}/></a>
+          <a className="nav-cta" href="#contact"><span>شروع پروژه</span><ArrowUpLeft size={16}/></a>
           <button className="icon-btn mobile-only" onClick={() => setMenu(v => !v)} aria-label="منو">
             {menu ? <X size={19}/> : <Menu size={19}/>}
           </button>
         </div>
       </nav>
 
-      <section id="top" className="hero">
+      <section id="top" className={`hero hero-header-${headerMode}`}>
         <div className="hero-noise" />
         <div className="hero-copy">
           <div className="eyebrow"><span className="pulse" /> استودیو طراحی و ساخت دیجیتال</div>
