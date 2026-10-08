@@ -131,7 +131,8 @@ function App() {
         </div>
       </nav>
 
-      <section id="top" className={`hero hero-header-${headerMode}`} style={{
+      <div id="content" tabIndex="-1">
+      <section id="hero" className={`hero hero-header-${headerMode}`} style={{
         "--hero-progress":heroProgress,"--hero-pointer-x":heroPointer.x,"--hero-pointer-y":heroPointer.y,
         "--hero-camera-x":heroCamera.x,"--hero-camera-y":heroCamera.y,"--hero-camera-z":heroCamera.z,
         "--hero-interaction":heroInteraction
