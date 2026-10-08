@@ -226,8 +226,8 @@ function App() {
         <form className="contact-form" onSubmit={submit}>
           <label>نام<input required name="name" placeholder="نام شما"/></label>
           <label>ایمیل<input required type="email" name="email" placeholder="you@example.com"/></label>
-          <label>نوع پروژه<select name="type" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>وب‌سایت</option><option>وب‌اپلیکیشن</option><option>اپلیکیشن موبایل</option><option>فروشگاه</option><option>محصول اختصاصی</option></select></label>
-          <label>بودجه تقریبی<select name="budget" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>نیاز به مشاوره</option><option>پروژه کوچک</option><option>پروژه متوسط</option><option>پروژه بزرگ</option></select></label>
+          <label>نوع پروژه<select name="type" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>وب‌سایت</option><option>وب‌اپلیکیشن</option><option>اپلیکیشن موبایل</option><option>فروشگاه</option><option>محصول اختصاصی</option></select>{formErrors.type && <small id="type-error" className="field-error">{formErrors.type}</small>}</label>
+          <label>بودجه تقریبی<select name="budget" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>نیاز به مشاوره</option><option>پروژه کوچک</option><option>پروژه متوسط</option><option>پروژه بزرگ</option></select>{formErrors.budget && <small id="budget-error" className="field-error">{formErrors.budget}</small>}</label>
           <label>درباره پروژه<textarea required name="message" rows="6" placeholder="چه چیزی می‌خواهید بسازیم؟"/></label>
           <button className="submit" type="submit">ارسال درخواست <Send size={16}/></button>
         </form>
