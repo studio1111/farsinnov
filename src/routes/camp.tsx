@@ -96,9 +96,7 @@ function CampPage() {
               زندگی شهری فاصله بگیر. ما بخش سخت ماجرا را ساده کرده‌ایم.
             </p>
             <div className="hero-actions">
-              <a className="camp-button" href="#campers">
-                دیدن کمپرها <ArrowLeft size={18} />
-              </a>
+              <a className="camp-button" href="#campers">دیدن کمپرها <ArrowLeft size={18} /></a>
               <a className="text-link" href="#story">چطور کار می‌کند؟</a>
             </div>
             <div className="hero-stats">
@@ -108,23 +106,7 @@ function CampPage() {
             </div>
           </div>
 
-          <div className="hero-visual">
-            <div className="hero-glow" />
-            <img
-              src={CAMPERS[0].image}
-              alt="کمپر در طبیعت"
-              className="hero-image"
-            />
-            <div className="floating-card">
-              <span>مسیر پیشنهادی</span>
-              <strong>پاتاگونیا · ۸ روز</strong>
-              <small>از €1,192</small>
-            </div>
-            <div className="image-caption">
-              <span>01 / 06</span>
-              <span>Patagonia Route</span>
-            </div>
-          </div>
+          <div className="hero-visual"><div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" /><div className="hero-glow" /><div className="hero-image-shell tilt-card"><img src={CAMPERS[0].image} alt="کمپر در طبیعت" className="hero-image" /><div className="hero-3d-badge"><span>3D ROUTE</span><strong>360°</strong></div></div><div className="floating-card"><span>مسیر پیشنهادی</span><strong>پاتاگونیا · ۸ روز</strong><small>از €1,192</small></div><div className="image-caption"><span>01 / 06</span><span>Patagonia Route</span></div></div>
         </section>
 
         <section className="marquee" aria-label="مزایای Nomad Camp">
@@ -146,11 +128,10 @@ function CampPage() {
           <div className="camper-grid">
             {campers.map((camper, index) => (
               <article className={`camper-card ${index === 0 ? "featured" : ""}`} key={camper.id}>
-                <div className="camper-image-wrap">
+                <Link to="/camp/$camperId" params={{ camperId: camper.id }} className="camper-image-link" aria-label={`جزئیات ${camper.name}`}><div className="camper-image-wrap">
                   <img src={camper.image} alt={camper.name} className="camper-image" />
                   <span className="camper-type">{camper.type}</span>
-                </div>
-                <div className="camper-body">
+                <span className="view-detail">مشاهده <ArrowLeft size={14} /></span></div></Link><div className="camper-body">
                   <div className="camper-title-row">
                     <div>
                       <span>{camper.region}</span>
@@ -169,28 +150,7 @@ function CampPage() {
           </div>
         </section>
 
-        <section id="story" className="story-section">
-          <div className="story-image">
-            <img
-              src="https://images.unsplash.com/photo-1475483768296-6163e08872a1?auto=format&fit=crop&w=1600&q=85"
-              alt="کمپ در میان کوهستان"
-            />
-            <div className="story-stamp">GO<br />FAR</div>
-          </div>
-          <div className="story-copy">
-            <span className="section-kicker">THE NOMAD METHOD</span>
-            <h2>کمتر برنامه‌ریزی کن، بیشتر کشف کن.</h2>
-            <p>
-              فلسفه Nomad Camp ساده است: به‌جای رزرو یک اتاق و برگشتن به همان
-              مسیرهای همیشگی، وسیله‌ای بردار که مقصدش را خودت تعیین می‌کنی.
-            </p>
-            <div className="method-list">
-              <div><span>01</span><div><strong>انتخاب کن</strong><p>کمپری متناسب با نفرات و سبک سفرت.</p></div></div>
-              <div><span>02</span><div><strong>مسیرت را بساز</strong><p>مقصد و تاریخ را بگو، ما پیشنهاد می‌دهیم.</p></div></div>
-              <div><span>03</span><div><strong>راه بیفت</strong><p>کمپر آماده است، فقط کلید را بردار.</p></div></div>
-            </div>
-          </div>
-        </section>
+        <section id="experience" className="experience-section"><div className="experience-copy"><span className="section-kicker">THE NOMAD METHOD</span><h2>کمتر برنامه‌ریزی کن، بیشتر کشف کن.</h2><p>فلسفه Nomad Camp ساده است: وسیله‌ای بردار که مقصدش را خودت تعیین می‌کنی.</p></div><div className="experience-grid"><div><span>01</span><strong>انتخاب کن</strong><p>کمپری متناسب با نفرات و سبک سفرت.</p></div><div><span>02</span><strong>مسیرت را بساز</strong><p>مقصد و تاریخ را بگو، ما پیشنهاد می‌دهیم.</p></div><div><span>03</span><strong>راه بیفت</strong><p>کمپر آماده است، فقط کلید را بردار.</p></div></div></section>
 
         <section id="booking" className="booking-section">
           <div className="booking-intro">
