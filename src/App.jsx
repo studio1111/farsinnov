@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getHeaderMode, getHeaderProgress } from "./headerBehavior.js";
+import { getHeroAssemblyProgress, getHeroCamera, getHeroInteractionStrength, getHeroPointer } from "./heroBehavior.js";
 import {
   ArrowLeft, ArrowUpLeft, Check, ChevronDown, Code2, Layers3, Menu,
   Moon, MoveUpRight, Play, Rocket, Send, Smartphone, Sparkles, Sun,
@@ -33,12 +34,48 @@ function App() {
   const [sent, setSent] = useState(false);
   const [headerMode, setHeaderMode] = useState("hero");
   const [headerProgress, setHeaderProgress] = useState(0);
+  const [heroProgress, setHeroProgress] = useState(0);
+  const [heroPointer, setHeroPointer] = useState({ x: 0, y: 0 });
+  const [heroInteracting, setHeroInteracting] = useState(false);
 
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
   }, [dark]);
 
   const year = useMemo(() => new Date().getFullYear(), []);
+
+  useEffect(() => {
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        setHeaderMode(getHeaderMode(scrollY));
+        setHeaderProgress(getHeaderProgress(scrollY));
+        const heroHeight = Math.max(window.innerHeight, 1);
+        setHeroProgress(getHeroAssemblyProgress(scrollY / heroHeight));
+      });
+    };
+    const onPointerMove = (event) => {
+      const next = getHeroPointer(event.clientX, event.clientY, window.innerWidth, window.innerHeight);
+      setHeroPointer(next);
+      setHeroInteracting(true);
+    };
+    const onPointerLeave = () => setHeroInteracting(false);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    window.addEventListener("pointerleave", onPointerLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerleave", onPointerLeave);
+    };
+  }, []);
+
+  const heroCamera = getHeroCamera(heroProgress);
+  const heroInteraction = getHeroInteractionStrength(heroProgress, heroInteracting);
 
   const submit = (e) => {
     e.preventDefault();
@@ -70,90 +107,51 @@ function App() {
         </div>
       </nav>
 
-      <section id="top" className={`hero hero-header-${headerMode}`}>
+      <section
+        id="top"
+        className={`hero hero-header-${headerMode}`}
+        style={{
+          "--hero-progress": heroProgress,
+          "--hero-pointer-x": heroPointer.x,
+          "--hero-pointer-y": heroPointer.y,
+          "--hero-camera-x": heroCamera.x,
+          "--hero-camera-y": heroCamera.y,
+          "--hero-camera-z": heroCamera.z,
+          "--hero-interaction": heroInteraction
+        }}
+      >
+        <div className="hero-space" aria-hidden="true">
+          <div className="star-field star-field-a" />
+          <div className="star-field star-field-b" />
+          <div className="space-nebula nebula-a" />
+          <div className="space-nebula nebula-b" />
+          <div className="space-grid" />
+          <div className="hero-machine">
+            <div className="machine-orbit machine-orbit-a" />
+            <div className="machine-orbit machine-orbit-b" />
+            <div className="machine-orbit machine-orbit-c" />
+            <div className="machine-core"><span>F</span></div>
+            <div className="machine-node node-a" />
+            <div className="machine-node node-b" />
+            <div className="machine-node node-c" />
+            <div className="machine-node node-d" />
+            <div className="machine-panel panel-a">FARSINNOV</div>
+            <div className="machine-panel panel-b">DIGITAL / 01</div>
+            <div className="machine-beam beam-a" />
+            <div className="machine-beam beam-b" />
+          </div>
+        </div>
         <div className="hero-noise" />
         <div className="hero-copy">
           <div className="eyebrow"><span className="pulse" /> استودیو طراحی و ساخت دیجیتال</div>
-          <h1>وب‌سایت را<br/><em>تجربه</em> می‌کنیم.</h1>
-          <p>وب‌سایت، فروشگاه و اپلیکیشن‌هایی می‌سازیم که فقط زیبا نیستند؛ حرکت می‌کنند، می‌فروشند و در ذهن می‌مانند.</p>
+          <h1>آینده دیجیتال<br/><em>را می‌سازیم.</em></h1>
+          <p>طراحی و توسعه وب‌سایت، وب‌اپلیکیشن و اپلیکیشن‌های موبایل؛ از یک ایده خام تا محصولی سریع، هوشمند و آماده رشد.</p>
           <div className="hero-actions">
-            <a className="primary" href="#contact">پروژه‌ات را شروع کن <ArrowLeft size={17}/></a>
-            <a className="ghost" href="#work"><Play size={15}/> دیدن مسیر ما</a>
+            <a className="primary" href="#contact">شروع یک پروژه <ArrowLeft size={17}/></a>
+            <a className="ghost" href="#work"><Play size={15}/> مشاهده پروژه‌ها</a>
           </div>
-          <div className="hero-meta">
-            <span><b>01</b> استراتژی</span><span><b>02</b> طراحی</span><span><b>03</b> توسعه</span>
-          </div>
+          <div className="hero-meta"><span><b>01</b> استراتژی</span><span><b>02</b> طراحی</span><span><b>03</b> توسعه</span></div>
         </div>
-        <div className="orbital" aria-hidden="true">
-          <div className="orbital-ring ring-a" />
-          <div className="orbital-ring ring-b" />
-          <div className="orbital-ring ring-c" />
-          <div className="orb-core"><span>F</span></div>
-          <div className="orbit-card card-a"><Zap size={14}/> FAST</div>
-          <div className="orbit-card card-b"><Sparkles size={14}/> CINEMATIC</div>
-          <div className="orbit-card card-c"><Code2 size={14}/> REAL</div>
-        </div>
+        <div className="hero-caption" aria-hidden="true"><span>FARSINNOV / DIGITAL MACHINE</span><b>SCROLL TO TRANSFORM</b></div>
         <div className="scroll-cue">اسکرول کن <span>↓</span></div>
       </section>
-
-      <section className="marquee"><div>DESIGN • CODE • MOTION • PRODUCT • DESIGN • CODE • MOTION • PRODUCT • </div></section>
-
-      <section id="services" className="section">
-        <div className="section-head">
-          <div><span className="kicker">01 / SERVICES</span><h2>هر چیزی که برای<br/><span>ساختن لازم است.</span></h2></div>
-          <p>از اولین ایده تا محصولی که کاربر واقعاً با آن کار می‌کند، یک تیم واحد کنار پروژه می‌ماند.</p>
-        </div>
-        <div className="service-grid">
-          {services.map((s, i) => {
-            const Icon = s.icon;
-            return <button key={s.title} className={"service-card " + (active === i ? "active" : "")} onClick={() => setActive(active === i ? null : i)}>
-              <span className="card-index">0{i + 1}</span><Icon size={24}/><h3>{s.title}</h3><p>{s.text}</p><span className="card-arrow"><MoveUpRight size={17}/></span>
-            </button>
-          })}
-        </div>
-      </section>
-
-      <section id="work" className="section work-section">
-        <div className="section-head">
-          <div><span className="kicker">02 / SELECTED WORK</span><h2>محصولاتی با <span>شخصیت.</span></h2></div>
-          <a className="text-link" href="#contact">یک پروژه مشابه بسازیم <ArrowLeft size={16}/></a>
-        </div>
-        <div className="project-list">
-          {projects.map(p => <article className="project" key={p.number}>
-            <div className="project-visual"><span>{p.number}</span><div className="visual-grid"/><div className="visual-orb"/></div>
-            <div className="project-copy"><span className="kicker">{p.tag}</span><h3>{p.title}</h3><p>{p.text}</p><a href="#contact">مشاهده جزئیات <ArrowLeft size={15}/></a></div>
-          </article>)}
-        </div>
-      </section>
-
-      <section className="statement"><div className="statement-inner"><span className="kicker">THE FARSINNOV METHOD</span><h2>کمتر قالب.<br/><span>بیشتر تجربه.</span></h2><p>الهام از روندهای مدرن ساخت وب، اما با هویت مستقل، کدنویسی واقعی و تمرکز روی نتیجه کسب‌وکار.</p></div></section>
-
-      <section id="process" className="section">
-        <div className="section-head"><div><span className="kicker">03 / PROCESS</span><h2>از ایده تا <span>اجرا.</span></h2></div></div>
-        <div className="steps">{steps.map(([n,t,d]) => <div className="step" key={n}><span>{n}</span><h3>{t}</h3><p>{d}</p></div>)}</div>
-      </section>
-
-      <section className="section stack-section">
-        <div className="stack-panel">
-          <div><span className="kicker">04 / READY TO SCALE</span><h2>امروز رابط.<br/><span>فردا محصول.</span></h2><p>معماری را طوری می‌چینیم که اتصال Supabase، احراز هویت، دیتابیس و پنل مدیریت مرحله بعدی پروژه باشد، نه یک بازنویسی دردناک.</p></div>
-          <div className="stack-orbit"><div>React</div><div>Supabase</div><div>Motion</div><div>API</div></div>
-        </div>
-      </section>
-
-      <section id="contact" className="contact">
-        <div className="contact-copy"><span className="kicker">05 / START A PROJECT</span><h2>ایده‌ات را<br/><span>واقعی کنیم.</span></h2><p>چند خط درباره پروژه بنویس. مسیر بعدی را با هم مشخص می‌کنیم.</p></div>
-        <form className="contact-form" onSubmit={submit}>
-          <label>نام<input required name="name" placeholder="نام شما" /></label>
-          <label>راه ارتباطی<input required name="contact" placeholder="ایمیل یا شماره تماس" /></label>
-          <label>نوع پروژه<select name="type" defaultValue="website"><option value="website">وب‌سایت</option><option value="shop">فروشگاه</option><option value="app">اپلیکیشن</option><option value="webapp">وب‌اپلیکیشن</option></select></label>
-          <label>توضیحات<textarea required name="message" rows="5" placeholder="چه چیزی می‌خواهید بسازیم؟"/></label>
-          <button className="submit" type="submit">{sent ? <><Check size={18}/> پیام ثبت شد</> : <>ارسال درخواست <Send size={17}/></>}</button>
-        </form>
-      </section>
-
-      <footer><div className="brand"><span className="brand-mark"><Sparkles size={15}/></span><span>FARSINNOV</span></div><span>© {year} تمامی حقوق محفوظ است.</span><a href="#top">بازگشت به بالا ↑</a></footer>
-    </main>
-  );
-}
-
-export default App;
