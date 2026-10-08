@@ -161,7 +161,7 @@ function App() {
 
       <div className="marquee" aria-hidden="true"><div>IDEA / DESIGN / EXPERIENCE / BUILD / LAUNCH / GROW / IDEA / DESIGN / EXPERIENCE / BUILD / LAUNCH / GROW / </div></div>
 
-      <section id="services" className="section services-section">
+      <section id="services" className="section services-section reveal">
         <div className="section-head services-head">
           <div><div className="kicker">SERVICES / 06 MODULES</div><h2>از یک ایده خام<br/><span>تا یک محصول زنده.</span></h2></div>
           <p>Farsinnov یک فهرست خدمات نیست. یک مسیر کامل است که ایده را به تجربه، تجربه را به محصول و محصول را به رشد تبدیل می‌کند.</p>
@@ -204,7 +204,7 @@ function App() {
         </div>
       </section>
 
-      <section id="work" className="section work-section portfolio-section">
+      <section id="work" className="section work-section portfolio-section reveal">
         <div className="section-head portfolio-head">
           <div><div className="kicker">SELECTED WORK / 03 WORLDS</div><h2>ایده‌ها را<br/><span>به جهان تبدیل می‌کنیم.</span></h2></div>
           <p>سه کانسپت نمونه برای نشان دادن زبان طراحی Farsinnov. در پروژه واقعی، هر جهان با محتوا، برند و داده‌های خود شما ساخته می‌شود.</p>
@@ -237,18 +237,43 @@ function App() {
           </div>
         </div>
       </section>
-      <section className="statement"><div className="kicker">NOT JUST A WEBSITE</div><h2>هر پیکسل باید<br/><span>دلیلی داشته باشد.</span></h2><p>ما ظاهر را از عملکرد جدا نمی‌کنیم. حرکت، محتوا، کد و داده باید در یک تجربه واحد کار کنند.</p></section>
+      <section className="statement reveal"><div className="kicker">NOT JUST A WEBSITE</div><h2>هر پیکسل باید<br/><span>دلیلی داشته باشد.</span></h2><p>ما ظاهر را از عملکرد جدا نمی‌کنیم. حرکت، محتوا، کد و داده باید در یک تجربه واحد کار کنند.</p></section>
 
-      <section id="process" className="section">
+      <section className="section principles-section reveal">
+        <div className="section-head"><div><div className="kicker">WHY FARSINNOV / 04 PRINCIPLES</div><h2>زیبایی کافی نیست.<br/><span>محصول باید کار کند.</span></h2></div><p>چهار اصل ثابت، تصمیم‌های طراحی و فنی ما را از اولین ایده تا نسخه منتشرشده هدایت می‌کنند.</p></div>
+        <div className="principles">
+          <article><span>01</span><h3>وضوح قبل از شلوغی</h3><p>هر صفحه باید یک مسیر روشن داشته باشد، حتی وقتی ظاهر آن پرجزئیات و سینمایی است.</p></article>
+          <article><span>02</span><h3>حرکت با دلیل</h3><p>انیمیشن برای هدایت توجه و ساخت حس محصول است، نه برای پر کردن صفحه.</p></article>
+          <article><span>03</span><h3>کد قابل رشد</h3><p>کامپوننت‌ها و ساختار پروژه طوری ساخته می‌شوند که نسخه بعدی از نسخه اول بهتر شود.</p></article>
+          <article><span>04</span><h3>تحویل واقعی</h3><p>هدف نهایی یک تصویر زیبا نیست، محصولی است که بتوان آن را استفاده، توسعه و منتشر کرد.</p></article>
+        </div>
+      </section>
+
+      <section id="process" className="section reveal">
         <div className="section-head"><div><div className="kicker">PROCESS / 04 STEPS</div><h2>مسیر ساخت<br/><span>شفاف و واقعی.</span></h2></div><p>از اولین گفت‌وگو تا انتشار، هر مرحله خروجی مشخص دارد و تصمیم‌ها قابل مشاهده‌اند.</p></div>
         <div className="steps">{steps.map(step=><article className="step" key={step[0]}><span>{step[0]}</span><h3>{step[1]}</h3><p>{step[2]}</p></article>)}</div>
       </section>
 
-      <section className="section">
+      <section className="section reveal">
         <div className="stack-panel"><div><div className="kicker">TECH / READY TO SCALE</div><h2>تکنولوژی باید<br/><span>در خدمت تجربه باشد.</span></h2><p>از React و Vite تا API، دیتابیس و در ادامه Supabase، معماری را متناسب با محصول انتخاب می‌کنیم، نه برعکس.</p></div><div className="stack-orbit" aria-hidden="true"><div>REACT</div><div>VITE</div><div>API</div><div>SUPABASE</div></div></div>
       </section>
 
-      <section id="contact" className="contact">
+      <section className="section faq-section reveal">
+        <div className="section-head"><div><div className="kicker">FAQ / BEFORE WE BUILD</div><h2>قبل از شروع،<br/><span>چند جواب روشن.</span></h2></div><p>اگر سوال دیگری دارید، در فرم پروژه بنویسید تا پاسخ دقیق بر اساس نیاز محصول ارائه شود.</p></div>
+        <div className="faq-list">
+          {[
+            ["آیا فقط وب‌سایت طراحی می‌کنید؟","خیر. مسیر Farsinnov از استراتژی و UI/UX تا وب‌سایت، وب‌اپلیکیشن، فروشگاه و اپلیکیشن موبایل را پوشش می‌دهد."],
+            ["آیا می‌توانم فقط یک بخش از خدمات را سفارش بدهم؟","بله. هر ماژول مستقل است. می‌توانید فقط طراحی، توسعه یا یک بخش مشخص از مسیر محصول را شروع کنید."],
+            ["Backend و دیتابیس هم انجام می‌شود؟","بله. برای پروژه‌هایی که نیاز داشته باشند، API، احراز هویت، دیتابیس و اتصال به Supabase در معماری محصول قرار می‌گیرد."],
+            ["چطور پروژه را شروع کنیم؟","فرم پایین صفحه را با چند خط توضیح پر کنید. ابتدا دامنه کار و مسیر مناسب مشخص می‌شود، سپس پیشنهاد اجرایی ارائه خواهد شد."]
+          ].map(([question,answer],index)=><article className={"faq-item " + (openFaq===index ? "open" : "")} key={question}>
+            <button type="button" aria-expanded={openFaq===index} onClick={()=>setOpenFaq(openFaq===index ? -1 : index)}><span>{"0"+(index+1)}</span><b>{question}</b><ChevronDown size={18}/></button>
+            <div className="faq-answer"><p>{answer}</p></div>
+          </article>)}
+        </div>
+      </section>
+
+      <section id="contact" className="contact reveal">
         <div className="contact-copy"><div className="kicker">START A PROJECT</div><h2>ایده‌ات را<br/><span>روشن کنیم.</span></h2><p>چند خط درباره پروژه بنویس. این فرم فعلاً برای ساخت تجربه اولیه است و در مرحله بعد به Backend متصل می‌شود.</p>{sent && <div className="form-success"><Check size={16}/> پیام شما برای نسخه نمایشی ثبت شد.</div>}</div>
         <form className="contact-form" onSubmit={submit}>
           <label>نام<input required name="name" placeholder="نام شما"/></label>
